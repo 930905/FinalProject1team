@@ -46,3 +46,8 @@ P_BUYER(MEMBER ID) 외래키
 PAMOUNT
 PDATE
 ----------------------------------------------------------------------------------------------
+이벤트(new_event)
+ENO
+PNAME (PRODUCT PNAME) 외래키
+WRITER (MEMBER ID) 외래키
+REGDATE

@@ -4,6 +4,7 @@ drop table free_board cascade CONSTRAINTS;
 drop table product cascade CONSTRAINTS;
 drop table basket cascade CONSTRAINTS;
 drop table product_order cascade CONSTRAINTS;
+drop table new_event cascade CONSTRAINTS;
 drop sequence notice_seq;
 drop sequence free_board_seq;
 drop sequence basket_seq;
@@ -57,7 +58,7 @@ pno varchar2(10),
 pname varchar2(20),
 pprice number,
 category varchar2(20));
-alter table product add constraint product_pk primary key (pno);
+alter table product add constraint product_pk primary key (pname);
 
 create table basket(
 pnum varchar2(20),
@@ -66,7 +67,7 @@ p_buyer varchar2(20),
 pamount int,
 pdate date default sysdate);
 alter table basket add constraint basket_pk primary key(pnum);
-alter table basket add constraint basket_fk1 foreign key (pname) references product(pno);
+alter table basket add constraint basket_fk1 foreign key (pname) references product(pname);
 alter table basket add constraint basket_fk2 foreign key (p_buyer) references member(id);
 create sequence basket_seq
 start with 1
@@ -82,3 +83,12 @@ p_buyer varchar2(20),
 pamount int,
 pdate date default sysdate);
 alter table product_order add constraint p_order_pk primary key (pno);
+
+create table new_event(
+eno int,
+pname varchar2(20),
+writer varchar2(20),
+regdate date default sysdate);
+alter table new_event add constraint event_pk primary key (eno);
+alter table new_event add constraint event_fk1 foreign key (panme) references product(pname);
+alter table new_event add constraint event_fk2 foreign key (writer) references member(id);
