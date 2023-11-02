@@ -1,0 +1,48 @@
+회원 테이블(MEMBER)
+NAME
+ID 기본키
+PASSWORD
+EMAIL
+BIRTH
+ADDRESS
+GENDER
+P_NUM
+---------------------------------------------------------------------------------------------
+공지사항 테이블(NOTICE)
+BNO 기본키
+TITLE
+CONTENT
+WRITER(DEFAULT ADMIN)
+REGDATE
+MODDATE
+---------------------------------------------------------------------------------------------
+자유 게시판 테이블(FREE_BOARD)
+BNO 기본키
+WRITER(MEMBER ID) 외래키 CASCADE ON DELETE
+TITLE
+CONTENT
+REGDATE
+MODDATE
+---------------------------------------------------------------------------------------------
+상품 테이블(PRODUCT)
+PNO 기본키
+PNAME
+PPRICE
+CATEGORY
+---------------------------------------------------------------------------------------------
+장바구니 테이블(BASKET)
+PNUM 기본키(PRODUCT PNO + BASKET_SEQ.NEXTVAL)
+PNAME(PRODUCT PNAME) 외래키
+P_BUYER(MEMBER ID) 외래키
+PAMOUNT
+PDATE
+
+---------------------------------------------------------------------------------------------
+상품주문 테이블(PRODUCT_ORDER)
+PNO 기본키
+PNUM 외래키(basket pnum)
+PNAME(PRODUCT PNAME) 외래키
+P_BUYER(MEMBER ID) 외래키
+PAMOUNT
+PDATE
+----------------------------------------------------------------------------------------------

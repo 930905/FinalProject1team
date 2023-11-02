@@ -1,0 +1,84 @@
+drop table member cascade CONSTRAINTS;
+drop table notice cascade CONSTRAINTS;
+drop table free_board cascade CONSTRAINTS;
+drop table product cascade CONSTRAINTS;
+drop table basket cascade CONSTRAINTS;
+drop table product_order cascade CONSTRAINTS;
+drop sequence notice_seq;
+drop sequence free_board_seq;
+drop sequence basket_seq;
+
+create table member(
+id varchar2(20),
+name varchar2(10),
+password varchar2(20),
+email varchar2(30),
+birth varchar2(10),
+address varchar2(50),
+gender char,
+p_num varchar2(20)
+);
+ALTER TABLE member ADD CONSTRAINT member_pk PRIMARY KEY (id);
+
+create table notice(
+bno int,
+title varchar2(50),
+content varchar2(300),
+writer varchar(20) default 'admin',
+regdate date default sysdate,
+moddate date default sysdate);
+alter table notice add constraint notice_pk primary key (bno);
+
+create sequence notice_seq
+start with 1
+increment by 1
+minvalue 1
+maxvalue 9999;
+
+create table free_board(
+bno int,
+writer varchar2(20),
+title varchar2(50),
+content varchar2(300),
+regdate date default sysdate,
+moddate date default sysdate);
+alter table free_board add constraint free_board_pk primary key(bno);
+alter table free_board add constraint free_board_fk foreign key (writer) REFERENCES member(id) on delete cascade;
+
+create sequence free_board_seq
+start with 1
+increment by 1
+minvalue 1
+maxvalue 9999;
+
+
+create table product(
+pno varchar2(10),
+pname varchar2(20),
+pprice number,
+category varchar2(20));
+alter table product add constraint product_pk primary key (pno);
+
+create table basket(
+pnum varchar2(20),
+pname varchar2(20),
+p_buyer varchar2(20),
+pamount int,
+pdate date default sysdate);
+alter table basket add constraint basket_pk primary key(pnum);
+alter table basket add constraint basket_fk1 foreign key (pname) references product(pno);
+alter table basket add constraint basket_fk2 foreign key (p_buyer) references member(id);
+create sequence basket_seq
+start with 1
+increment by 1
+minvalue 1
+maxvalue 9999;
+
+create table product_order(
+pno int,
+pnum varchar2(20),
+pname varchar2(20),
+p_buyer varchar2(20),
+pamount int,
+pdate date default sysdate);
+alter table product_order add constraint p_order_pk primary key (pno);
