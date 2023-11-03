@@ -1,3 +1,5 @@
+sqlplus system/System1234;
+
 drop table member cascade CONSTRAINTS;
 drop table notice cascade CONSTRAINTS;
 drop table free_board cascade CONSTRAINTS;
@@ -10,6 +12,12 @@ drop sequence seq_reply;
 drop sequence notice_seq;
 drop sequence free_board_seq;
 drop sequence basket_seq;
+
+create user Team_2G identified by 1234;
+grant create session to Team_2G;
+grant connect, dba, resource to Team_2G;
+
+conn Team_2G/1234;
 
 create table member(
 id varchar2(20),
