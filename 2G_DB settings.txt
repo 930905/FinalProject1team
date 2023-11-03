@@ -5,6 +5,8 @@ drop table product cascade CONSTRAINTS;
 drop table basket cascade CONSTRAINTS;
 drop table product_order cascade CONSTRAINTS;
 drop table new_event cascade CONSTRAINTS;
+drop table free_board_reply cascade CONSTRAINTS;
+drop sequence seq_reply;
 drop sequence notice_seq;
 drop sequence free_board_seq;
 drop sequence basket_seq;
@@ -20,6 +22,7 @@ gender char,
 p_num varchar2(20)
 );
 ALTER TABLE member ADD CONSTRAINT member_pk PRIMARY KEY (id);
+insert into member values ('admin','관리자','admin','admin@naver.com','1999-00-00','','M','010-0000-0000');
 
 create table notice(
 bno int,
@@ -43,8 +46,20 @@ title varchar2(50),
 content varchar2(300),
 regdate date default sysdate,
 moddate date default sysdate);
+
+create table free_board_reply(
+rno number(10,0),
+bno number(10,0) not null,
+reply varchar2(1000) not null,
+replyer varchar2(50) not null,
+replyDate date default sysdate,
+updateDate date default sysdate
+);
+
 alter table free_board add constraint free_board_pk primary key(bno);
 alter table free_board add constraint free_board_fk foreign key (writer) REFERENCES member(id) on delete cascade;
+alter table free_board add (replycnt number default 0);
+update free_board set replycnt = (select count(rno) from free_board_reply where free_board_reply.bno = free_board.bno);
 
 create sequence free_board_seq
 start with 1
@@ -52,6 +67,15 @@ increment by 1
 minvalue 1
 maxvalue 9999;
 
+create sequence seq_reply
+increment by 1
+start with 0
+maxvalue 9999999
+minvalue 0;
+
+alter table free_board_reply add constraint pk_reply primary key (rno);
+alter table free_board_reply  add constraint fk_reply_board  
+foreign key (bno)  references  free_board (bno);
 
 create table product(
 pno varchar2(10),
@@ -90,5 +114,4 @@ pname varchar2(20),
 writer varchar2(20),
 regdate date default sysdate);
 alter table new_event add constraint event_pk primary key (eno);
-alter table new_event add constraint event_fk1 foreign key (panme) references product(pname);
-alter table new_event add constraint event_fk2 foreign key (writer) references member(id);
+alter table new_event add constraint event_fk1 foreign key (pname) references product(pname);

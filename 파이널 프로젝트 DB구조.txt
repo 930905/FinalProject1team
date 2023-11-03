@@ -23,6 +23,15 @@ TITLE
 CONTENT
 REGDATE
 MODDATE
+REPLYCNT
+-------------------------------------------------------
+자유게시판 덧글 테이블(FREE_BOARD_REPLY)
+RNO 기본키
+BNO 외래키(FREE_BOARD BNO)
+reply
+replyer
+replyDate
+updateDate
 ---------------------------------------------------------------------------------------------
 상품 테이블(PRODUCT)
 PNO 기본키
@@ -49,5 +58,5 @@ PDATE
 이벤트(new_event)
 ENO
 PNAME (PRODUCT PNAME) 외래키
-WRITER (MEMBER ID) 외래키
+WRITER
 REGDATE
